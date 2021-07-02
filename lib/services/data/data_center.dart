@@ -41,4 +41,11 @@ class DataManager {
 
   //get single character by id
   Future<Character> getCharacterById(String id) async {}
+
+  String imageOfCharater(String name) {
+    return _characters
+        .singleWhere((element) => element.name == name,
+            orElse: () => Character(img: ""))
+        .img;
+  }
 }

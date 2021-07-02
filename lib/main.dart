@@ -100,24 +100,37 @@ class Homepage extends StatelessWidget {
                                   // ClipRRect vanne widget le chai border radius ko option dinxa
                                   // child Image xa vane prefer ClipRRect for curved border
 
-                                  child: Material(
-                                    borderRadius: BorderRadius.circular(12),
-                                    shadowColor: Colors.blue,
-                                    elevation: 5,
-                                    // color: Colors.red,
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(12),
-                                      child: Container(
-                                          // todo container ko height ghatayera herne
-                                          width: 200,
-                                          height: 100,
-                                          //todo yaa image user garne data payepachi
-                                          // todo favourite ko icon pani rakhne
-                                          child: Image.network(
-                                            manager.characters[index].img,
-                                            fit: BoxFit.cover,
-                                          )),
-                                    ),
+                                  child: Column(
+                                    children: [
+                                      Expanded(
+                                        child: Material(
+                                          borderRadius:
+                                              BorderRadius.circular(12),
+                                          shadowColor: Colors.blue,
+                                          elevation: 5,
+                                          // color: Colors.red,
+                                          child: ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(12),
+                                            child: Container(
+                                                // todo container ko height ghatayera herne
+                                                width: 200,
+                                                height: 100,
+                                                //todo yaa image user garne data payepachi
+                                                // todo favourite ko icon pani rakhne
+                                                child: Image.network(
+                                                  manager.characters[index].img,
+                                                  fit: BoxFit.cover,
+                                                )),
+                                          ),
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Text(
+                                            manager.characters[index].name),
+                                      )
+                                    ],
                                   ),
                                 )));
               },
@@ -216,7 +229,12 @@ class Homepage extends StatelessWidget {
                                                                   .all(8.0),
                                                           child: Column(
                                                             children: [
-                                                              CircleAvatar(),
+                                                              CircleAvatar(
+                                                                backgroundImage:
+                                                                    NetworkImage(
+                                                                        manager.imageOfCharater(
+                                                                            e.characters[index])),
+                                                              ),
                                                               Padding(
                                                                 padding:
                                                                     const EdgeInsets
