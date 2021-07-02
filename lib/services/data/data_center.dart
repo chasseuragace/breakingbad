@@ -70,7 +70,6 @@ class DataManager {
 //for each Episode: display 2x2 matrix image of characters  as thumbnail
 // create a add to favourite button for each episode -
 
-
 //todo functionality
 // navigate to character detail page on tap on image
 
