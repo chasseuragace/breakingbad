@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:tutor/services/data/api_manager.dart';
+
+import 'model/characters.dart';
 
 //  https://www.pinterest.com/pin/76490893660383367/
 void main() {
@@ -10,7 +13,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
+      title: 'Breaking Bad',
       // todo switch to dark/ligth theme
       // todo app ko lagi aafnai color scheme define garne
 
@@ -21,8 +25,8 @@ class MyApp extends StatelessWidget {
 
 // first thing visible
 class Homepage extends StatelessWidget {
-  const Homepage({Key key}) : super(key: key);
-
+  Homepage({Key key}) : super(key: key);
+  DataManager manager = DataManager();
   @override
   Widget build(BuildContext context) {
     //scaffold Base widget for using Material design
@@ -34,12 +38,19 @@ class Homepage extends StatelessWidget {
       /* appBar: AppBar(
         // k k paramater xa vanera cmd + click on Widget
         title: Text("Movies"),
-
+        centerTitle: false,
+        elevation: 5,
         //todo  title lai center ma dekhaune(Android) start ma dekhaune (IOS)
         //todo  app bar ko last ma search button rakhne
         //todo  appbar ko color change garne
         //todo  app bar ko tala shadow / elevation change garne
         //todo app bar hataune
+        actions: [
+          IconButton(
+            onPressed: () {},
+            icon: Icon(Icons.search),
+          )
+        ],
       ),*/
       //main page ko body
       body: SingleChildScrollView(
@@ -62,49 +73,56 @@ class Homepage extends StatelessWidget {
                   ],
                 ),
               ),
-              SizedBox(
-                  height: 300,
-                  // scrollable list ma item dekhaue ListView ra PageView ho mainly
-                  // yo duitai ko .builder constructor hunxa to optimize memory
-                  // builder use garda jati widget visible xa teti matra memory ma cache rakhxa
-                  // use na garda sapai memory ma basxa so dherai item xa vane always use builder
-                  //todo PageView.builder use gari herne, kasto dekhinxa
-                  child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      //todo pageuse garda try using controller
-                      /* controller: PageController(
-                          initialPage: 2,
-                          // todo suru mai third item dekhaune banaune
-                          viewportFraction: .5),*/
-                      itemBuilder: (context, index) =>
-                          // yelse junsukai widget lai rounded border dina sakxa
-                          Padding(
-                            padding: const EdgeInsets.all(
-                              18.0,
-                            ),
-                            // Material widget le shadow/elevation dinxa + border curved banaune option dinxa
-                            // ClipRRect vanne widget le chai border radius ko option dinxa
-                            // child Image xa vane prefer ClipRRect for curved border
-
-                            child: Material(
-                              borderRadius: BorderRadius.circular(12),
-                              shadowColor: Colors.blue,
-                              elevation: 5,
-                              // color: Colors.red,
-                              child: Container(
-                                  // todo container ko height ghatayera herne
-                                  width: 200,
-                                  height: 100,
-                                  //todo yaa image user garne data payepachi
-                                  // todo favourite ko icon pani rakhne
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Placeholder(
-                                      color: Colors.grey[200],
+              FutureBuilder(
+                future: manager.getCharacters(),
+                builder: (context, AsyncSnapshot<List<Character>> characters) {
+                  return SizedBox(
+                      height: 300,
+                      // scrollable list ma item dekhaue ListView ra PageView ho mainly
+                      // yo duitai ko .builder constructor hunxa to optimize memory
+                      // builder use garda jati widget visible xa teti matra memory ma cache rakhxa
+                      // use na garda sapai memory ma basxa so dherai item xa vane always use builder
+                      //todo PageView.builder use gari herne, kasto dekhinxa
+                      child: characters.hasData
+                          ? ListView.builder(
+                              itemCount: characters.data.length,
+                              scrollDirection: Axis.horizontal,
+                              //todo pageuse garda try using controller
+                              /* controller: PageController(
+                            initialPage: 2,
+                            // todo suru mai third item dekhaune banaune
+                            viewportFraction: .5),*/
+                              itemBuilder: (context, index) =>
+                                  // yelse junsukai widget lai rounded border dina sakxa
+                                  Padding(
+                                    padding: const EdgeInsets.all(
+                                      18.0,
                                     ),
-                                  )),
-                            ),
-                          ))),
+                                    // Material widget le shadow/elevation dinxa + border curved banaune option dinxa
+                                    // ClipRRect vanne widget le chai border radius ko option dinxa
+                                    // child Image xa vane prefer ClipRRect for curved border
+
+                                    child: Material(
+                                      borderRadius: BorderRadius.circular(12),
+                                      shadowColor: Colors.blue,
+                                      elevation: 5,
+                                      // color: Colors.red,
+                                      child: Container(
+                                          // todo container ko height ghatayera herne
+                                          width: 200,
+                                          height: 100,
+                                          //todo yaa image user garne data payepachi
+                                          // todo favourite ko icon pani rakhne
+                                          child: Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: Image.network(
+                                                  characters.data[index].img))),
+                                    ),
+                                  ))
+                          : Center(child: CircularProgressIndicator()));
+                },
+              ),
               // todo yeslai aarko section banaune
               Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -127,7 +145,7 @@ class Homepage extends StatelessWidget {
                       SizedBox(
                         height: 40,
                         child: TabBar(
-                          unselectedLabelStyle: TextStyle(color: Colors.grey),
+                          unselectedLabelStyle: TextStyle(color: Colors.red),
                           labelStyle: TextStyle(fontWeight: FontWeight.bold),
                           //todo tabs haru lai scrollable banaune
                           labelColor: Colors.black,
