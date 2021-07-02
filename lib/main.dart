@@ -114,10 +114,12 @@ class Homepage extends StatelessWidget {
                                           //todo yaa image user garne data payepachi
                                           // todo favourite ko icon pani rakhne
                                           child: Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
-                                              child: Image.network(
-                                                  characters.data[index].img))),
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Image.network(
+                                              characters.data[index].img,
+                                              fit: BoxFit.fitHeight,
+                                            ),
+                                          )),
                                     ),
                                   ))
                           : Center(child: CircularProgressIndicator()));
