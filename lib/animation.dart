@@ -7,8 +7,8 @@ class ScaleAnimation extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TweenAnimationBuilder(
-      curve: Curves.easeInCubic,
-      tween: Tween<double>(begin: .4, end: 1),
+      curve: Curves.ease,
+      tween: Tween<double>(begin: .6, end: 1),
       duration: Duration(milliseconds: 300),
       builder: (context, value, child) => Transform.scale(
         scale: value,
