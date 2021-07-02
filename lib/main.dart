@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tutor/model/episodes.dart';
 import 'package:tutor/services/data/data_center.dart';
-
-import 'model/characters.dart';
 
 //  https://www.pinterest.com/pin/76490893660383367/
 void main() {
@@ -73,9 +70,9 @@ class Homepage extends StatelessWidget {
                 ],
               ),
             ),
-            FutureBuilder(
-              future: manager.getCharacters(),
-              builder: (context, AsyncSnapshot<List<Character>> characters) {
+            ValueListenableBuilder<bool>(
+              valueListenable: manager.isLoading,
+              builder: (context, bool isLoading, _) {
                 return SizedBox(
                     height: 300,
                     // scrollable list ma item dekhaue ListView ra PageView ho mainly
@@ -83,9 +80,10 @@ class Homepage extends StatelessWidget {
                     // builder use garda jati widget visible xa teti matra memory ma cache rakhxa
                     // use na garda sapai memory ma basxa so dherai item xa vane always use builder
                     //todo PageView.builder use gari herne, kasto dekhinxa
-                    child: characters.hasData
-                        ? ListView.builder(
-                            itemCount: characters.data.length,
+                    child: isLoading
+                        ? Center(child: CircularProgressIndicator())
+                        : ListView.builder(
+                            itemCount: manager.characters.length,
                             scrollDirection: Axis.horizontal,
                             //todo pageuse garda try using controller
                             /* controller: PageController(
@@ -116,13 +114,12 @@ class Homepage extends StatelessWidget {
                                           //todo yaa image user garne data payepachi
                                           // todo favourite ko icon pani rakhne
                                           child: Image.network(
-                                            characters.data[index].img,
+                                            manager.characters[index].img,
                                             fit: BoxFit.cover,
                                           )),
                                     ),
                                   ),
-                                ))
-                        : Center(child: CircularProgressIndicator()));
+                                )));
               },
             ),
             // todo yeslai aarko section banaune
@@ -141,12 +138,16 @@ class Homepage extends StatelessWidget {
             ),
             // yeslai chai nested refractoring garnu parla
             Expanded(
-              child: FutureBuilder<List<Episode>>(
-                  future: manager.getEpisode(),
-                  builder: (context, AsyncSnapshot<List<Episode>> snapshot) {
-                    return snapshot.hasData
-                        ? DefaultTabController(
-                            length: snapshot.data.length,
+              child: ValueListenableBuilder<bool>(
+                  valueListenable: manager.isLoading,
+                  builder: (context, bool isLoading, _) {
+                    return isLoading
+                        ? SizedBox(
+                            height: 500,
+                            child: Center(child: CircularProgressIndicator()),
+                          )
+                        : DefaultTabController(
+                            length: manager.episodes.length,
                             child: Column(
                               children: [
                                 SizedBox(
@@ -159,7 +160,7 @@ class Homepage extends StatelessWidget {
                                     //todo tabs haru lai scrollable banaune
                                     isScrollable: true,
                                     labelColor: Colors.black,
-                                    tabs: snapshot.data
+                                    tabs: manager.episodes
                                         .map((e) => SizedBox(
                                             height: 80,
                                             width: 100,
@@ -177,7 +178,7 @@ class Homepage extends StatelessWidget {
                                 Expanded(
                                   child: TabBarView(
                                     physics: NeverScrollableScrollPhysics(),
-                                    children: snapshot.data
+                                    children: manager.episodes
                                         .map((e) => Container(
                                               child: Column(
                                                 crossAxisAlignment:
@@ -271,11 +272,7 @@ class Homepage extends StatelessWidget {
                                   ),
                                 )
                               ],
-                            ))
-                        : SizedBox(
-                            height: 500,
-                            child: Center(child: CircularProgressIndicator()),
-                          );
+                            ));
                   }),
             )
           ],

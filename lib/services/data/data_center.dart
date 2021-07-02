@@ -1,19 +1,38 @@
+import 'package:flutter/material.dart';
 import 'package:tutor/model/characters.dart';
 import 'package:tutor/model/episodes.dart';
 import 'package:tutor/services/api/api_service.dart';
 
 class DataManager {
-  Future<List<Character>> getCharacters() async {
+  List<Character> _characters;
+  List<Character> get characters => _characters;
+
+  ValueNotifier<bool> isLoading = ValueNotifier(true);
+
+  getData() async {
+    await _getCharacters();
+    await _getEpisode();
+    isLoading.value = false;
+  }
+
+  DataManager() {
+    getData();
+  }
+
+  List<Episode> _episodes;
+  List<Episode> get episodes => _episodes;
+
+  _getCharacters() async {
     var data = await API().get("https://www.breakingbadapi.com/api/characters");
-    Characters characters = Characters.fromJson({"characters": data});
-    return characters.characters;
+    BadCharacters characters = BadCharacters.fromJson({"characters": data});
+    _characters = characters.characters;
   }
 
   //todo get episodes - list<Episodes>
-  Future<List<Episode>> getEpisode() async {
+  _getEpisode() async {
     var data = await API().get("https://www.breakingbadapi.com/api/episodes");
     Episodes episodes = Episodes.fromJson({"episode": data});
-    return episodes.episode;
+    _episodes = episodes.episode;
   }
 
   //add to favourite
