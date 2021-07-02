@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:tutor/services/data/data_center.dart';
 import 'package:tutor/ui/homepage/character_carousel.dart';
-import 'package:tutor/ui/homepage/episode_carousel.dart';
 import 'package:tutor/ui/homepage/heading.dart';
+import 'package:tutor/ui/homepage/season_carousel.dart';
 import 'package:tutor/ui/shared/widgets.dart';
 
 class Homepage extends StatelessWidget {
@@ -24,10 +24,10 @@ class Homepage extends StatelessWidget {
                   title: "Characters", icon: Icons.movie_creation_outlined),
               CharacterCarousel(manager: manager),
               SectionHeading(
-                title: "Episodes",
+                title: "Seasons",
                 icon: Icons.bar_chart,
               ),
-              EpisodesCarousel(manager: manager)
+              SeasonCarousel(manager: manager)
             ],
           ),
         ),

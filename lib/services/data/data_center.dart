@@ -32,7 +32,8 @@ class DataManager {
 
   //todo get episodes - list<Episodes>
   _getEpisode() async {
-    var data = await API().get("https://www.breakingbadapi.com/api/episodes");
+    var data = await API()
+        .get("https://www.breakingbadapi.com/api/episodes?series=Breaking+bad");
     Episodes episodes = Episodes.fromJson({"episode": data});
     _episodes = episodes.episode;
   }
@@ -51,16 +52,18 @@ class DataManager {
         .img;
   }
 
-  List<Episodes> episodesInSeasion(int season) {
+  List<Episode> episodesInSeasion(int season) {
     //todo based on imput "season" find list of episodes for that season
+    return _episodes.where((element) => element.season == "$season").toList();
   }
-  getTotalNumberOfSeasons() {
-    return _episodes
+
+  int getTotalNumberOfSeasons() {
+    return int.tryParse(_episodes
         .reduce((value, element) => Episode(
             season: max(int.tryParse(value.season ?? "0") ?? 0,
                     int.tryParse(element.season ?? "0") ?? 1)
                 .toString()))
-        .season;
+        .season);
   }
 // todo change ui
 // replace Episodes sections with Seasons
