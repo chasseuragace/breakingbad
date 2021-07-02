@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:tutor/model/characters.dart';
 import 'package:tutor/model/episodes.dart';
@@ -48,4 +50,28 @@ class DataManager {
             orElse: () => Character(img: ""))
         .img;
   }
+
+  List<Episodes> episodesInSeasion(int season) {
+    //todo based on imput "season" find list of episodes for that season
+  }
+  getTotalNumberOfSeasons() {
+    return _episodes
+        .reduce((value, element) => Episode(
+            season: max(int.tryParse(value.season ?? "0") ?? 0,
+                    int.tryParse(element.season ?? "0") ?? 1)
+                .toString()))
+        .season;
+  }
+// todo change ui
+// replace Episodes sections with Seasons
+//configure tabbar to display Season 1 2 3..
+//remove the starring section
+//configure tabbarView to display Episodes in that season
+//for each Episode: display 2x2 matrix image of characters  as thumbnail
+// create a add to favourite button for each episode -
+
+
+//todo functionality
+// navigate to character detail page on tap on image
+
 }
