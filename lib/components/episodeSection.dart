@@ -27,22 +27,13 @@ class EpisodeSection extends StatelessWidget {
                         labelStyle: TextStyle(fontWeight: FontWeight.bold),
                         //todo tabs haru lai scrollable banaune
                         labelColor: Colors.black,
+                        isScrollable: true,
                         tabs: [
-                          Tab(
-                            child: Text("Episode 1"),
-                          ),
-                          Tab(
-                            child: Text("Episode 2"),
-                          ),
-                          Tab(
-                            child: Text("Episode 3"),
-                          ),
-                          Tab(
-                            child: Text("Episode 4"),
-                          ),
-                          Tab(
-                            child: Text("Episode 5"),
-                          ),
+                          ...episodes.data.map((episode) => Tab(
+                                  child: Text(
+                                episode.title,
+                                style: TextStyle(color: Colors.black),
+                              ))),
                         ],
                         //.map((e) => SizedBox(width: 50, child: e)).toList()),
                       ),
@@ -51,19 +42,33 @@ class EpisodeSection extends StatelessWidget {
                       height: MediaQuery.of(context).size.height * .6,
                       child: TabBarView(
                         children: [
-                          if (false)
-                            Container(
-                                child: ListView.builder(
-                              shrinkWrap: true,
-                              itemBuilder: (contrext, index) =>
-                                  ListTile(title: Text("item")),
-                            )),
-                          Text("page 1"),
-                          Text("page 2"),
-                          Text("page 3"),
-                          Text("page 4"),
-                          Text("page 5"),
-                        ].map((e) => Center(child: e)).toList(),
+                          ...episodes.data.map((episode) => Padding(
+                                padding: const EdgeInsets.all(10.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      episode.title,
+                                      style: TextStyle(
+                                          color: Colors.black, fontSize: 20),
+                                    ),
+                                    Text('Aired on: ${episode.airDate}'),
+                                    RichText(
+                                      text: TextSpan(
+                                          text: 'Aired on:',
+                                          style: TextStyle(color: Colors.black),
+                                          children: [
+                                            TextSpan(
+                                                text: episode.airDate,
+                                                style: TextStyle(
+                                                    fontWeight:
+                                                        FontWeight.bold))
+                                          ]),
+                                    )
+                                  ],
+                                ),
+                              ))
+                        ],
                       ),
                     )
                   ],
