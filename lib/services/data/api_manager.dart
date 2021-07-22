@@ -13,6 +13,7 @@ class DataManager {
   Future<List<Episodes>> getEpisode() async {
     var data = await API().get("www.breakingbadapi.com/api/episodes");
     EpisodeResponse episodes = EpisodeResponse.fromJson({"episodes": data});
+    print(episodes);
     return episodes.episodes;
   }
 
