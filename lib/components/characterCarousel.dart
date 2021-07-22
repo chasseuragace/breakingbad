@@ -37,7 +37,7 @@ class CharacterCarousel extends StatelessWidget {
                           padding: const EdgeInsets.all(
                             18.0,
                           ),
-                          // Material widget le shadow/elevation dinxa + border curved banaune option dinxa
+                          // Material widget le shadow/elevation dinxa + border curved banaune option dinxa`
                           // ClipRRect vanne widget le chai border radius ko option dinxa
                           // child Image xa vane prefer ClipRRect for curved border
 
@@ -53,8 +53,7 @@ class CharacterCarousel extends StatelessWidget {
                                 //todo yaa image user garne data payepachi
                                 // todo favourite ko icon pani rakhne
                                 child: Padding(
-                                    padding:
-                                        const EdgeInsets.all(8.0),
+                                    padding: const EdgeInsets.all(8.0),
                                     child: Image.network(
                                         characters.data[index].img))),
                           ),
