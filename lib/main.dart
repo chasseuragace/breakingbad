@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tutor/services/data/api_manager.dart';
+import 'package:tutor/model/episodes.dart';
 
 import 'model/characters.dart';
 
@@ -138,58 +139,65 @@ class Homepage extends StatelessWidget {
                 ),
               ),
               // yeslai chai nested refractoring garnu parla
-              DefaultTabController(
-                  length: 5,
-                  child: Column(
-                    children: [
-                      SizedBox(
-                        height: 40,
-                        child: TabBar(
-                          unselectedLabelStyle: TextStyle(color: Colors.red),
-                          labelStyle: TextStyle(fontWeight: FontWeight.bold),
-                          //todo tabs haru lai scrollable banaune
-                          labelColor: Colors.black,
-                          tabs: [
-                            Tab(
-                              child: Text("Episode 1"),
+              FutureBuilder(
+                future: manager.getEpisode(),
+                builder: (context, AsyncSnapshot<List<Episodes>> episodes) {
+                  return (DefaultTabController(
+                      length: episodes.data.length,
+                      child: Column(
+                        children: [
+                          SizedBox(
+                            height: 40,
+                            child: TabBar(
+                              unselectedLabelStyle:
+                                  TextStyle(color: Colors.red),
+                              labelStyle:
+                                  TextStyle(fontWeight: FontWeight.bold),
+                              //todo tabs haru lai scrollable banaune
+                              labelColor: Colors.black,
+                              tabs: [
+                                Tab(
+                                  child: Text("Episode 1"),
+                                ),
+                                Tab(
+                                  child: Text("Episode 2"),
+                                ),
+                                Tab(
+                                  child: Text("Episode 3"),
+                                ),
+                                Tab(
+                                  child: Text("Episode 4"),
+                                ),
+                                Tab(
+                                  child: Text("Episode 5"),
+                                ),
+                              ],
+                              //.map((e) => SizedBox(width: 50, child: e)).toList()),
                             ),
-                            Tab(
-                              child: Text("Episode 2"),
+                          ),
+                          SizedBox(
+                            height: MediaQuery.of(context).size.height * .6,
+                            child: TabBarView(
+                              children: [
+                                if (false)
+                                  Container(
+                                      child: ListView.builder(
+                                    shrinkWrap: true,
+                                    itemBuilder: (contrext, index) =>
+                                        ListTile(title: Text("item")),
+                                  )),
+                                Text("page 1"),
+                                Text("page 2"),
+                                Text("page 3"),
+                                Text("page 4"),
+                                Text("page 5"),
+                              ].map((e) => Center(child: e)).toList(),
                             ),
-                            Tab(
-                              child: Text("Episode 3"),
-                            ),
-                            Tab(
-                              child: Text("Episode 4"),
-                            ),
-                            Tab(
-                              child: Text("Episode 5"),
-                            ),
-                          ],
-                          //.map((e) => SizedBox(width: 50, child: e)).toList()),
-                        ),
-                      ),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height * .6,
-                        child: TabBarView(
-                          children: [
-                            if (false)
-                              Container(
-                                  child: ListView.builder(
-                                shrinkWrap: true,
-                                itemBuilder: (contrext, index) =>
-                                    ListTile(title: Text("item")),
-                              )),
-                            Text("page 1"),
-                            Text("page 2"),
-                            Text("page 3"),
-                            Text("page 4"),
-                            Text("page 5"),
-                          ].map((e) => Center(child: e)).toList(),
-                        ),
-                      )
-                    ],
-                  ))
+                          )
+                        ],
+                      )));
+                },
+              )
             ],
           ),
         ),
