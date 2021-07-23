@@ -70,8 +70,9 @@ class Homepage extends StatelessWidget {
                   ],
                 ),
               ),
-              // yeslai chai nested refractoring garnu parla
-              EpisodeSection(manager: manager)
+              if (false)
+                // yeslai chai nested refractoring garnu parla
+                EpisodeSection(manager: manager)
             ],
           ),
         ),

@@ -7,6 +7,17 @@ class DataManager {
   List<Character> characterList;
   List<Episodes> episodeList;
 
+  bool isLoaded = false;
+  DataManager() {
+    getAllData();
+  }
+
+  getAllData() async {
+    await getCharacters();
+    await getEpisode();
+    isLoaded = true;
+  }
+
   Future<List<Character>> getCharacters() async {
     // using saved cache for subsequent calls
     if (characterList == null) {
@@ -15,6 +26,7 @@ class DataManager {
       Characters characters = Characters.fromJson({"characters": data});
       //saving fetched data
       characterList = characters.characters;
+
       return characterList;
     } else
       return characterList;
