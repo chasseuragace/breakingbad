@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tutor/model/characters.dart';
+import 'package:tutor/pages/characters_page.dart';
 import 'package:tutor/services/data/api_manager.dart';
 
 class CharacterCarousel extends StatelessWidget {
@@ -41,21 +42,31 @@ class CharacterCarousel extends StatelessWidget {
                           // ClipRRect vanne widget le chai border radius ko option dinxa
                           // child Image xa vane prefer ClipRRect for curved border
 
-                          child: Material(
-                            borderRadius: BorderRadius.circular(12),
-                            shadowColor: Colors.blue,
-                            elevation: 5,
-                            // color: Colors.red,
-                            child: Container(
-                                // todo container ko height ghatayera herne
-                                width: 200,
-                                height: 100,
-                                //todo yaa image user garne data payepachi
-                                // todo favourite ko icon pani rakhne
-                                child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Image.network(
-                                        characters.data[index].img))),
+                          child: GestureDetector(
+                            onTap: () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (_) => CharactersPage(
+                                      character: characters.data[index])));
+                            },
+                            child: Material(
+                              borderRadius: BorderRadius.circular(12),
+                              shadowColor: Colors.blue,
+                              elevation: 5,
+                              // color: Colors.red,
+                              child: Container(
+                                  // todo container ko height ghatayera herne
+                                  width: 200,
+                                  height: 100,
+                                  //todo yaa image user garne data payepachi
+                                  // todo favourite ko icon pani rakhne
+                                  child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Hero(
+                                        tag: "${characters.data[index].charId}",
+                                        child: Image.network(
+                                            characters.data[index].img),
+                                      ))),
+                            ),
                           ),
                         ))
                 : Center(child: CircularProgressIndicator()));
