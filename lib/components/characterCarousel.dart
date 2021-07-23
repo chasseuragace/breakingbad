@@ -48,24 +48,30 @@ class CharacterCarousel extends StatelessWidget {
                                   builder: (_) => CharactersPage(
                                       character: characters.data[index])));
                             },
-                            child: Material(
-                              borderRadius: BorderRadius.circular(12),
-                              shadowColor: Colors.blue,
-                              elevation: 5,
-                              // color: Colors.red,
-                              child: Container(
-                                  // todo container ko height ghatayera herne
-                                  width: 200,
-                                  height: 100,
-                                  //todo yaa image user garne data payepachi
-                                  // todo favourite ko icon pani rakhne
-                                  child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Hero(
-                                        tag: "${characters.data[index].charId}",
-                                        child: Image.network(
-                                            characters.data[index].img),
-                                      ))),
+                            child: Column(
+                              children: [
+                                Expanded(
+                                  child: Card(
+                                    shadowColor: Colors.blue,
+                                    elevation: 5,
+                                    child: Container(
+                                        // todo container ko height ghatayera herne
+                                        width: 200,
+
+                                        //todo yaa image user garne data payepachi
+                                        // todo favourite ko icon pani rakhne
+                                        child: Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Hero(
+                                              tag:
+                                                  "${characters.data[index].charId}",
+                                              child: Image.network(
+                                                  characters.data[index].img),
+                                            ))),
+                                  ),
+                                ),
+                                Text(characters.data[index].name)
+                              ],
                             ),
                           ),
                         ))

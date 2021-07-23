@@ -53,6 +53,7 @@ class EpisodeSection extends StatelessWidget {
                                           color: Colors.black, fontSize: 20),
                                     ),
                                     Text('Aired on: ${episode.airDate}'),
+                                    Text('${episode.characters}'),
                                     RichText(
                                       text: TextSpan(
                                           text: 'Aired on:',
@@ -64,7 +65,23 @@ class EpisodeSection extends StatelessWidget {
                                                     fontWeight:
                                                         FontWeight.bold))
                                           ]),
-                                    )
+                                    ),
+                                    if (true)
+                                      FutureBuilder<String>(
+                                          future: delay(),
+                                          builder: (context, snapshot) {
+                                            return Wrap(
+                                              children: [
+                                                ...episode.characters.map((e) =>
+                                                    SizedBox(
+                                                        height: 80,
+                                                        width: 50,
+                                                        child: Image.network(manager
+                                                            .getImageForCharacter(
+                                                                e)))),
+                                              ],
+                                            );
+                                          })
                                   ],
                                 ),
                               ))
@@ -80,4 +97,9 @@ class EpisodeSection extends StatelessWidget {
       },
     );
   }
+}
+
+Future<String> delay() async {
+  await Future.delayed(Duration(seconds: 3));
+  return "";
 }

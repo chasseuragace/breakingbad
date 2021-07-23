@@ -4,21 +4,43 @@ import 'package:tutor/services/api/api_service.dart';
 import 'package:tutor/model/episodes.dart';
 
 class DataManager {
+  List<Character> characterList;
+  List<Episodes> episodeList;
+
   Future<List<Character>> getCharacters() async {
-    var data = await API().get("https://www.breakingbadapi.com/api/characters");
-    Characters characters = Characters.fromJson({"characters": data});
-    return characters.characters;
+    // using saved cache for subsequent calls
+    if (characterList == null) {
+      var data =
+          await API().get("https://www.breakingbadapi.com/api/characters");
+      Characters characters = Characters.fromJson({"characters": data});
+      //saving fetched data
+      characterList = characters.characters;
+      return characterList;
+    } else
+      return characterList;
   }
 
   //todo get episodes - list<Episodes>
   Future<List<Episodes>> getEpisode() async {
-    var data = await API()
-        .get("https://www.breakingbadapi.com/api/episodes?series=Breaking+Bad");
-    EpisodeResponse episodes = EpisodeResponse.fromJson({"episodes": data});
-    // debugPrint('${episodes.episodes.length}');
-    return episodes.episodes;
+    if (episodeList == null) {
+      var data = await API().get(
+          "https://www.breakingbadapi.com/api/episodes?series=Breaking+Bad");
+      EpisodeResponse episodes = EpisodeResponse.fromJson({"episodes": data});
+      // debugPrint('${episodes.episodes.length}');
+      episodeList = episodes.episodes;
+      return episodeList;
+    } else
+      return episodeList;
   }
 
   //get single character by id
   Future<Character> getCharacterById(String id) async {}
+
+  String getImageForCharacter(String name) {
+    try {
+      return characterList.where((element) => element.name == name).first.img;
+    } catch (e) {
+      return "";
+    }
+  }
 }
