@@ -77,34 +77,34 @@ class Homepage extends StatelessWidget {
                           // todo suru mai third item dekhaune banaune
                           viewportFraction: .5),*/
                       itemBuilder: (context, index) =>
-                      // yelse junsukai widget lai rounded border dina sakxa
-                      Padding(
-                        padding: const EdgeInsets.all(
-                          18.0,
-                        ),
-                        // Material widget le shadow/elevation dinxa + border curved banaune option dinxa
-                        // ClipRRect vanne widget le chai border radius ko option dinxa
-                        // child Image xa vane prefer ClipRRect for curved border
+                          // yelse junsukai widget lai rounded border dina sakxa
+                          Padding(
+                            padding: const EdgeInsets.all(
+                              18.0,
+                            ),
+                            // Material widget le shadow/elevation dinxa + border curved banaune option dinxa
+                            // ClipRRect vanne widget le chai border radius ko option dinxa
+                            // child Image xa vane prefer ClipRRect for curved border
 
-                        child: Material(
-                          borderRadius: BorderRadius.circular(12),
-                          shadowColor: Colors.blue,
-                          elevation: 5,
-                          // color: Colors.red,
-                          child: Container(
-                            // todo container ko height ghatayera herne
-                              width: 200,
-                              height: 100,
-                              //todo yaa image user garne data payepachi
-                              // todo favourite ko icon pani rakhne
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Placeholder(
-                                  color: Colors.grey[200],
-                                ),
-                              )),
-                        ),
-                      ))),
+                            child: Material(
+                              borderRadius: BorderRadius.circular(12),
+                              shadowColor: Colors.blue,
+                              elevation: 5,
+                              // color: Colors.red,
+                              child: Container(
+                                  // todo container ko height ghatayera herne
+                                  width: 200,
+                                  height: 100,
+                                  //todo yaa image user garne data payepachi
+                                  // todo favourite ko icon pani rakhne
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Placeholder(
+                                      color: Colors.grey[200],
+                                    ),
+                                  )),
+                            ),
+                          ))),
               // todo yeslai aarko section banaune
               Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -152,8 +152,8 @@ class Homepage extends StatelessWidget {
                         ),
                       ),
                       Builder(
-                        builder: (c){
-                          ScrollController _controller =ScrollController();
+                        builder: (c) {
+                          ScrollController _controller = ScrollController();
                           return SizedBox(
                             height: MediaQuery.of(context).size.height * .6,
                             child: TabBarView(
@@ -178,6 +178,8 @@ class Homepage extends StatelessWidget {
       bottomNavigationBar: BottomNavigationBar(
         items: [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.favorite), label: "Favourites"),
           BottomNavigationBarItem(icon: Icon(Icons.settings), label: "Setting")
           //todo  favoutire vanne section rakhne
         ],
@@ -196,25 +198,25 @@ class Page1 extends StatefulWidget {
 }
 
 class _Page1State extends State<Page1> {
-ScrollController _conreoller ;
-@override
+  ScrollController _conreoller;
+  @override
   void initState() {
-  _conreoller =ScrollController();
-  _conreoller.addListener(listen);
+    _conreoller = ScrollController();
+    _conreoller.addListener(listen);
 
     super.initState();
   }
-  listen(){
+
+  listen() {
 //  scroll
   }
   @override
   Widget build(BuildContext context) {
     return Container(
         child: ListView.builder(
-          shrinkWrap: true,
-          itemBuilder: (contrext, index) =>
-              ListTile(title: Text("item")),
-        ));
+      shrinkWrap: true,
+      itemBuilder: (contrext, index) => ListTile(title: Text("item")),
+    ));
   }
 }
 

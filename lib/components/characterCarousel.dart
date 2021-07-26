@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tutor/main.dart';
 import 'package:tutor/model/characters.dart';
 import 'package:tutor/pages/characters_page.dart';
 import 'package:tutor/services/data/api_manager.dart';
@@ -54,20 +55,33 @@ class CharacterCarousel extends StatelessWidget {
                                   child: Card(
                                     shadowColor: Colors.blue,
                                     elevation: 5,
-                                    child: Container(
-                                        // todo container ko height ghatayera herne
-                                        width: 200,
+                                    child: Stack(
+                                      children: [
+                                        Container(
+                                            // todo container ko height ghatayera herne
+                                            width: 200,
 
-                                        //todo yaa image user garne data payepachi
-                                        // todo favourite ko icon pani rakhne
-                                        child: Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Hero(
-                                              tag:
-                                                  "${characters.data[index].charId}",
-                                              child: Image.network(
-                                                  characters.data[index].img),
-                                            ))),
+                                            //todo yaa image user garne data payepachi
+                                            // todo favourite ko icon pani rakhne
+                                            child: Padding(
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                child: Hero(
+                                                  tag:
+                                                      "${characters.data[index].charId}",
+                                                  child: Image.network(
+                                                      characters
+                                                          .data[index].img),
+                                                ))),
+                                        Positioned(
+                                          bottom: 6,
+                                          right: 6,
+                                          child: AddRemoveFromFavoutiresbutton(
+                                              id: characters
+                                                  .data[index].charId),
+                                        )
+                                      ],
+                                    ),
                                   ),
                                 ),
                                 Text(characters.data[index].name)
@@ -77,6 +91,37 @@ class CharacterCarousel extends StatelessWidget {
                         ))
                 : Center(child: CircularProgressIndicator()));
       },
+    );
+  }
+}
+
+class AddRemoveFromFavoutiresbutton extends StatefulWidget {
+  final id;
+  const AddRemoveFromFavoutiresbutton({
+    Key key,
+    this.id,
+  }) : super(key: key);
+
+  @override
+  _AddRemoveFromFavoutiresbuttonState createState() =>
+      _AddRemoveFromFavoutiresbuttonState();
+}
+
+class _AddRemoveFromFavoutiresbuttonState
+    extends State<AddRemoveFromFavoutiresbutton> {
+  @override
+  Widget build(BuildContext context) {
+    return FloatingActionButton(
+      mini: true,
+      onPressed: () async {
+        await database.addToFavourites(widget.id);
+        //1 todo:  already fav ma xa vane remove from favourite
+        setState(() {});
+      },
+      child: Icon(
+        Icons.favorite,
+        color: database.isPresent(widget.id) ? Colors.red : null,
+      ),
     );
   }
 }

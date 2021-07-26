@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:tutor/services/local_storage/local_database.dart';
 import 'pages/homepage.dart';
 
-//  https://www.pinterest.com/pin/76490893660383367/
+// globally accessable database source
+DatabaseService database;
+
 void main() {
+  database = DatabaseService();
+  Future.delayed(Duration(seconds: 1), () {
+    database.removeall();
+  });
   runApp(MyApp());
 }
 
