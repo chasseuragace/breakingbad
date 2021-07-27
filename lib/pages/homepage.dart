@@ -81,6 +81,8 @@ class Homepage extends StatelessWidget {
       bottomNavigationBar: BottomNavigationBar(
         items: [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.favorite), label: "Favourites"),
           BottomNavigationBarItem(icon: Icon(Icons.settings), label: "Setting")
           //todo  favoutire vanne section rakhne
         ],
