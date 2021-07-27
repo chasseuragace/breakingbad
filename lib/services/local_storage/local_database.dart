@@ -14,11 +14,14 @@ class DatabaseService {
 // initialize shared preferences
   init() async {
     _sp = await SharedPreferences.getInstance();
+    return _sp;
   }
 
   //getting data
-  getFavourites() {
+  getFavourites() async {
+    _sp ??= await init();
     return _sp.getString(FAVOURITES_KEY);
+
     //  {"favourites":"['id1','id2']"};
   }
 

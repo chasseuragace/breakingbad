@@ -4,11 +4,13 @@ import 'package:tutor/components/episodeSection.dart';
 import 'package:tutor/components/heading.dart';
 import 'package:tutor/model/characters.dart';
 import 'package:tutor/model/episodes.dart';
+import 'package:tutor/pages/favourites.dart';
 import 'package:tutor/services/data/api_manager.dart';
 
 class Homepage extends StatelessWidget {
   Homepage({Key key}) : super(key: key);
   DataManager manager = DataManager();
+  final ValueNotifier<int> navigationBarController = ValueNotifier(0);
   @override
   Widget build(BuildContext context) {
     //scaffold Base widget for using Material design
@@ -35,56 +37,79 @@ class Homepage extends StatelessWidget {
         ],
       ),*/
       //main page ko body
-      body: SingleChildScrollView(
-        child: SafeArea(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Heading(),
-              //todo  yeslai eauta xuttai widget banaune - Name -  SectionWithTitle
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  children: [
-                    Icon(Icons.movie_creation_outlined),
-                    Text("Characters",
-                        style: Theme.of(context)
-                            .textTheme
-                            .headline4
-                            .copyWith(fontWeight: FontWeight.bold))
-                  ],
+      body: ValueListenableBuilder<int>(
+          valueListenable: navigationBarController,
+          builder: (context, value, child) {
+            return IndexedStack(
+              index: value,
+              children: [
+                SingleChildScrollView(
+                  child: SafeArea(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Heading(),
+                        //todo  yeslai eauta xuttai widget banaune - Name -  SectionWithTitle
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            children: [
+                              Icon(Icons.movie_creation_outlined),
+                              Text("Characters",
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .headline4
+                                      .copyWith(fontWeight: FontWeight.bold))
+                            ],
+                          ),
+                        ),
+                        CharacterCarousel(manager: manager),
+                        // todo yeslai aarko section banaune
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            children: [
+                              Icon(Icons.bar_chart),
+                              Text("Episodes ",
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .headline4
+                                      .copyWith(fontWeight: FontWeight.bold))
+                            ],
+                          ),
+                        ),
+                        if (false)
+                          // yeslai chai nested refractoring garnu parla
+                          EpisodeSection(manager: manager)
+                      ],
+                    ),
+                  ),
                 ),
-              ),
-              CharacterCarousel(manager: manager),
-              // todo yeslai aarko section banaune
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  children: [
-                    Icon(Icons.bar_chart),
-                    Text("Episodes ",
-                        style: Theme.of(context)
-                            .textTheme
-                            .headline4
-                            .copyWith(fontWeight: FontWeight.bold))
-                  ],
-                ),
-              ),
-              if (false)
-                // yeslai chai nested refractoring garnu parla
-                EpisodeSection(manager: manager)
-            ],
-          ),
-        ),
-      ),
+                FavouritesPage(),
+                Text('setting')
+              ],
+            );
+          }),
       // bottom ma navigation bar dekhanu
-      bottomNavigationBar: BottomNavigationBar(
-        items: [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
-          BottomNavigationBarItem(icon: Icon(Icons.settings), label: "Setting")
-          //todo  favoutire vanne section rakhne
-        ],
-      ),
+      bottomNavigationBar: ValueListenableBuilder<int>(
+          valueListenable: navigationBarController,
+          builder: (context, value, child) {
+            return BottomNavigationBar(
+              currentIndex: value,
+              onTap: (index) {
+                print('current $index');
+                navigationBarController.value = index;
+              },
+              items: [
+                BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
+                BottomNavigationBarItem(
+                    icon: Icon(Icons.favorite), label: "Favourites"),
+                BottomNavigationBarItem(
+                    icon: Icon(Icons.settings), label: "Setting")
+                //todo  favoutire vanne section rakhne
+              ],
+            );
+          }),
     );
   }
 }

@@ -8,7 +8,7 @@ DatabaseService database;
 void main() {
   database = DatabaseService();
   Future.delayed(Duration(seconds: 1), () {
-    database.removeall();
+    // database.removeall();
   });
   runApp(MyApp());
 }
