@@ -14,14 +14,15 @@ class DatabaseService {
 // initialize shared preferences
   init() async {
     _sp = await SharedPreferences.getInstance();
-    return _sp;
   }
 
   //getting data
-  getFavourites() async {
-    _sp ??= await init();
-    return _sp.getString(FAVOURITES_KEY);
+  List<int> getFavourites() {
+    var favoutires = _sp.getString(FAVOURITES_KEY);
 
+    List<int> initialFavourites =
+        (favoutires != null) ? List.from(jsonDecode(favoutires)) : <int>[];
+    return initialFavourites;
     //  {"favourites":"['id1','id2']"};
   }
 
@@ -29,35 +30,24 @@ class DatabaseService {
   addToFavourites(int characterID) async {
     //fetching existing list of favourites
     var favoutires = getFavourites();
-    print("FAVOURITES IS : $favoutires");
-    List<int> initialFavourites;
-
-    if (favoutires != null)
-      initialFavourites = List.from(jsonDecode(((getFavourites()))));
-    else
-      initialFavourites = [];
-
-    initialFavourites.add(characterID);
-    await _sp.setString(FAVOURITES_KEY, jsonEncode(initialFavourites));
+    favoutires.add(characterID);
+    await _sp.setString(FAVOURITES_KEY, jsonEncode(favoutires));
   }
 
   bool isPresent(int id) {
+    return getFavourites().contains(id);
+  }
+
+  _removeFromFav(int id) async {
     var favoutires = getFavourites();
-    List<int> initialFavourites;
-
-    if (favoutires != null)
-      initialFavourites = List.from(jsonDecode(((getFavourites()))));
-    else
-      initialFavourites = [];
-
-    return initialFavourites.contains(id);
+    favoutires.remove(id);
+    await _sp.setString(FAVOURITES_KEY, jsonEncode(favoutires));
   }
 
-  _removeFromFav() async {
-    // suru ma latest favourites ko list fetch garne
-    // remove id from that list
-    // save the list
+  addRemoveFromFavourites(int id) async {
+    return isPresent(id) ? _removeFromFav(id) : addToFavourites(id);
   }
+
   removeall() {
     // _sp.clear();
   }
