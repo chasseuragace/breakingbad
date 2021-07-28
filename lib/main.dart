@@ -3,13 +3,11 @@ import 'package:tutor/services/local_storage/local_database.dart';
 import 'pages/homepage.dart';
 
 // globally accessable database source
-DatabaseService database;
+DatabaseService database= DatabaseService();
 
-void main() {
-  database = DatabaseService();
-  Future.delayed(Duration(seconds: 1), () {
-    // database.removeall();
-  });
+void main() async{
+await database.init();
+
   runApp(MyApp());
 }
 

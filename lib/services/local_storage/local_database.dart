@@ -8,16 +8,17 @@ class DatabaseService {
   static const String FAVOURITES_KEY = "favourites";
 
   SharedPreferences _sp;
-  DatabaseService() {
-    init();
-  }
+
 // initialize shared preferences
   init() async {
+    print("getting sp");
     _sp = await SharedPreferences.getInstance();
+    print("got sp");
   }
 
   //getting data
   List<int> getFavourites() {
+    print("requested");
     var favoutires = _sp.getString(FAVOURITES_KEY);
 
     List<int> initialFavourites =

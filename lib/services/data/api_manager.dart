@@ -46,7 +46,13 @@ class DataManager {
   }
 
   //get single character by id
-  Future<Character> getCharacterById(String id) async {}
+  Character getCharacterById(int id) {
+    return characterList
+        .where(
+          (element) => element.charId == id,
+        )
+        .first;
+  }
 
   String getImageForCharacter(String name) {
     try {

@@ -114,6 +114,7 @@ class _AddRemoveFromFavoutiresbuttonState
     return FloatingActionButton(
       mini: true,
       onPressed: () async {
+
         await database.addRemoveFromFavourites(widget.id);
         //1 todo:  already fav ma xa vane remove from favourite
         setState(() {});
