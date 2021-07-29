@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tutor/components/characterCarousel.dart';
 import 'package:tutor/components/episodeSection.dart';
 import 'package:tutor/components/heading.dart';
+import 'package:tutor/main.dart';
 import 'package:tutor/model/characters.dart';
 import 'package:tutor/model/episodes.dart';
 import 'package:tutor/pages/favourites.dart';
@@ -97,6 +98,7 @@ class Homepage extends StatelessWidget {
             return BottomNavigationBar(
               currentIndex: value,
               onTap: (index) {
+                database.init();
                 print('current $index');
                 navigationBarController.value = index;
               },
@@ -113,3 +115,5 @@ class Homepage extends StatelessWidget {
     );
   }
 }
+
+

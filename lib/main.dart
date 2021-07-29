@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:tutor/services/local_storage/local_database.dart';
+
 import 'pages/homepage.dart';
 
 // globally accessable database source
-DatabaseService database= DatabaseService();
+DatabaseService database;
 
-void main() async{
-await database.init();
-
+void main() {
   runApp(MyApp());
 }
 
@@ -15,6 +14,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    database ??= DatabaseService()..init();
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Breaking Bad',
