@@ -20,72 +20,11 @@ class EpisodeSection extends StatelessWidget {
                 length: episodes.data.length,
                 child: Column(
                   children: [
-                    SizedBox(
-                      height: 40,
-                      child: TabBar(
-                        unselectedLabelStyle: TextStyle(color: Colors.red),
-                        labelStyle: TextStyle(fontWeight: FontWeight.bold),
-                        //todo tabs haru lai scrollable banaune
-                        labelColor: Colors.black,
-                        isScrollable: true,
-                        tabs: [
-                          ...episodes.data.map((episode) => Tab(
-                                  child: Text(
-                                episode.title,
-                                style: TextStyle(color: Colors.black),
-                              ))),
-                        ],
-                        //.map((e) => SizedBox(width: 50, child: e)).toList()),
-                      ),
-                    ),
+                    CustomTabBarView(episodes: episodes),
                     SizedBox(
                       height: MediaQuery.of(context).size.height * .6,
                       child: TabBarView(
-                        children: [
-                          ...episodes.data.map((episode) => Padding(
-                                padding: const EdgeInsets.all(10.0),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      episode.title,
-                                      style: TextStyle(
-                                          color: Colors.black, fontSize: 20),
-                                    ),
-                                    Text('Aired on: ${episode.airDate}'),
-                                    Text('${episode.characters}'),
-                                    RichText(
-                                      text: TextSpan(
-                                          text: 'Aired on:',
-                                          style: TextStyle(color: Colors.black),
-                                          children: [
-                                            TextSpan(
-                                                text: episode.airDate,
-                                                style: TextStyle(
-                                                    fontWeight:
-                                                        FontWeight.bold))
-                                          ]),
-                                    ),
-                                    if (true)
-                                      FutureBuilder<String>(
-                                          future: delay(),
-                                          builder: (context, snapshot) {
-                                            return Wrap(
-                                              children: [
-                                                ...episode.characters.map((e) =>
-                                                    SizedBox(
-                                                        height: 80,
-                                                        width: 50,
-                                                        child: Image.network(manager
-                                                            .getImageForCharacter(
-                                                                e)))),
-                                              ],
-                                            );
-                                          })
-                                  ],
-                                ),
-                              ))
-                        ],
+                        children: [buildChildrens(episodes)],
                       ),
                     )
                   ],
@@ -95,6 +34,77 @@ class EpisodeSection extends StatelessWidget {
                 child: Center(child: CircularProgressIndicator()),
               ));
       },
+    );
+  }
+
+  buildChildrens(episodes) {
+    return episodes.data.map((episode) => Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                episode.title,
+                style: TextStyle(color: Colors.black, fontSize: 20),
+              ),
+              Text('Aired on: ${episode.airDate}'),
+              Text('${episode.characters}'),
+              RichText(
+                text: TextSpan(
+                    text: 'Aired on:',
+                    style: TextStyle(color: Colors.black),
+                    children: [
+                      TextSpan(
+                          text: episode.airDate,
+                          style: TextStyle(fontWeight: FontWeight.bold))
+                    ]),
+              ),
+              if (true)
+                FutureBuilder<String>(
+                    future: delay(),
+                    builder: (context, snapshot) {
+                      return Wrap(
+                        children: [
+                          ...episode.characters.map((e) => SizedBox(
+                              height: 80,
+                              width: 50,
+                              child: Image.network(
+                                  manager.getImageForCharacter(e)))),
+                        ],
+                      );
+                    })
+            ],
+          ),
+        ));
+  }
+}
+
+class CustomTabBarView extends StatelessWidget {
+  final AsyncSnapshot<List<Episodes>> episodes;
+  const CustomTabBarView({
+    Key key,
+    this.episodes,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 40,
+      child: TabBar(
+        unselectedLabelStyle: TextStyle(color: Colors.red),
+        labelStyle: TextStyle(fontWeight: FontWeight.bold),
+        //todo tabs haru lai scrollable banaune
+        labelColor: Colors.black,
+        isScrollable: true,
+        tabs: [
+          ...episodes.data.map((episode) => Tab(
+                  child: Text(
+                episode.title,
+                style: TextStyle(color: Colors.black),
+              ))),
+        ],
+        //.map((e) => SizedBox(width: 50, child: e)).toList()),
+      ),
     );
   }
 }

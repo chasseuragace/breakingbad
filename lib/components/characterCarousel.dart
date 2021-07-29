@@ -43,54 +43,62 @@ class CharacterCarousel extends StatelessWidget {
                           // ClipRRect vanne widget le chai border radius ko option dinxa
                           // child Image xa vane prefer ClipRRect for curved border
 
-                          child: GestureDetector(
-                            onTap: () {
-                              Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (_) => CharactersPage(
-                                      character: characters.data[index])));
-                            },
-                            child: Column(
-                              children: [
-                                Expanded(
-                                  child: Card(
-                                    shadowColor: Colors.blue,
-                                    elevation: 5,
-                                    child: Stack(
-                                      children: [
-                                        Container(
-                                            // todo container ko height ghatayera herne
-                                            width: 200,
-
-                                            //todo yaa image user garne data payepachi
-                                            // todo favourite ko icon pani rakhne
-                                            child: Padding(
-                                                padding:
-                                                    const EdgeInsets.all(8.0),
-                                                child: Hero(
-                                                  tag:
-                                                      "${characters.data[index].charId}",
-                                                  child: Image.network(
-                                                      characters
-                                                          .data[index].img),
-                                                ))),
-                                        Positioned(
-                                          bottom: 6,
-                                          right: 6,
-                                          child: AddRemoveFromFavoutiresbutton(
-                                              id: characters
-                                                  .data[index].charId),
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                Text(characters.data[index].name)
-                              ],
-                            ),
-                          ),
+                          child: SingleCharacterCard(
+                              currentCharacter: characters.data[index]),
                         ))
                 : Center(child: CircularProgressIndicator()));
       },
+    );
+  }
+}
+
+class SingleCharacterCard extends StatelessWidget {
+  final Character currentCharacter;
+  const SingleCharacterCard({
+    Key key,
+    this.currentCharacter,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        Navigator.of(context).push(MaterialPageRoute(
+            builder: (_) => CharactersPage(character: currentCharacter)));
+      },
+      child: Column(
+        children: [
+          Expanded(
+            child: Card(
+              shadowColor: Colors.blue,
+              elevation: 5,
+              child: Stack(
+                children: [
+                  Container(
+                      // todo container ko height ghatayera herne
+                      width: 200,
+
+                      //todo yaa image user garne data payepachi
+                      // todo favourite ko icon pani rakhne
+                      child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Hero(
+                            tag: "${currentCharacter.charId}",
+                            child: Image.network(currentCharacter.img),
+                          ))),
+                  Positioned(
+                    bottom: 6,
+                    right: 6,
+                    child: AddRemoveFromFavoutiresbutton(
+                        id: currentCharacter.charId),
+                  )
+                ],
+              ),
+            ),
+          ),
+          Text(currentCharacter.name)
+        ],
+      ),
     );
   }
 }
@@ -114,7 +122,6 @@ class _AddRemoveFromFavoutiresbuttonState
     return FloatingActionButton(
       mini: true,
       onPressed: () async {
-
         await database.addRemoveFromFavourites(widget.id);
         //1 todo:  already fav ma xa vane remove from favourite
         setState(() {});
