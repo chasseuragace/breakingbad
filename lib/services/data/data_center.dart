@@ -27,7 +27,8 @@ class DataManager {
   _getCharacters() async {
     var data = await API().get("https://www.breakingbadapi.com/api/characters");
     BadCharacters characters = BadCharacters.fromJson({"characters": data});
-    _characters = characters.characters;
+    _characters = characters.characters
+      ..sort((a, b) => a.charId.compareTo(b.charId));
   }
 
   //todo get episodes - list<Episodes>
@@ -43,7 +44,13 @@ class DataManager {
   removeFromFavourite(Episode episode) {}
 
   //get single character by id
-  Future<Character> getCharacterById(String id) async {}
+  Character getCharacterById(int id) {
+    return _characters
+        .where(
+          (element) => element.charId == id,
+        )
+        .first;
+  }
 
   String imageOfCharater(String name) {
     return _characters

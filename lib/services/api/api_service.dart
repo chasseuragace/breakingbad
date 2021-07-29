@@ -11,8 +11,6 @@ class API {
     if (response.statusCode == 200) {
       data = jsonDecode(await response.stream.bytesToString());
       return data;
-    } else {
-      print(response.reasonPhrase);
-    }
+    } else {}
   }
 }

@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:tutor/services/data/data_center.dart';
+import 'package:tutor/services/local_storage/local_database.dart';
 import 'package:tutor/ui/homepage/character_carousel.dart';
 import 'package:tutor/ui/homepage/heading.dart';
 import 'package:tutor/ui/homepage/homepage.dart';
 import 'package:tutor/ui/shared/widgets.dart';
+
+final ValueNotifier<int> navigationBarController = ValueNotifier(0);
+DataManager manager = DataManager();
+DatabaseService database;
 
 //  https://www.pinterest.com/pin/76490893660383367/
 void main() {
@@ -14,6 +19,8 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    database ??= DatabaseService();
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Breaking Bad',
@@ -27,7 +34,7 @@ class MyApp extends StatelessWidget {
 
 class Nested extends StatelessWidget {
   Nested({Key key}) : super(key: key);
-  DataManager manager = DataManager();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

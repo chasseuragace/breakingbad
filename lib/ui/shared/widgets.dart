@@ -17,11 +17,13 @@ class SectionHeading extends StatelessWidget {
         children: [
           Icon(icon),
           SizedBox(width: 8),
-          Text(title,
-              style: Theme.of(context)
-                  .textTheme
-                  .headline4
-                  .copyWith(fontWeight: FontWeight.bold))
+          Flexible(
+            child: Text(title,
+                style: Theme.of(context)
+                    .textTheme
+                    .headline4
+                    .copyWith(fontWeight: FontWeight.bold)),
+          )
         ],
       ),
     );
