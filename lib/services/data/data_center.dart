@@ -64,6 +64,13 @@ class DataManager {
     return _episodes.where((element) => element.season == "$season").toList();
   }
 
+  List<Episode> appearencePerSeason(int charId) {
+    var appearance = episodes.where((element) {
+      return element.characters.contains(getCharacterById(charId).name);
+    });
+    return appearance.toList();
+  }
+
   int getTotalNumberOfSeasons() {
     return int.tryParse(_episodes
         .reduce((value, element) => Episode(

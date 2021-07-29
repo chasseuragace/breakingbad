@@ -76,6 +76,8 @@ class CharacterListTIle extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       onTap: () {
+        //manager.appearencePerSeason(currentCharacter.charId);
+
         Navigator.of(context).push(MaterialPageRoute(
             builder: (_) => CharactersPage(
                   character: currentCharacter,
